@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <SelectedItems :list="list" />
+    <SelectedItems :list="list" @update-marked-list="updateList" />
   </div>
 </template>
 
@@ -25,7 +25,13 @@ export default {
         name: 'Третий элемент',
       },
     ],
+    markedList: [],
   }),
+  methods: {
+    updateList(newArr) {
+      this.markedList = newArr;
+    },
+  },
 };
 </script>
 

@@ -10,9 +10,9 @@
     </div>
     <div class="mt-4">
       <label><em>Выберите значения для добавления:</em></label>
-      <div v-if="isListUnselected" class="h-search-panel">
+      <div v-if="isListUnmarked" class="h-search-panel">
         <ul>
-          <li v-for="item in listUnselectedSearch" :key="item.id">
+          <li v-for="item in listUnmarkedSearch" :key="item.id">
             <label>
               <input type="checkbox" v-model="item.selected" />
               {{ item.name }}
@@ -34,7 +34,7 @@
 export default {
   name: 'SearchPanel',
   props: {
-    listUnselected: {
+    listUnmarked: {
       type: Array,
       default: () => [],
     },
@@ -43,13 +43,13 @@ export default {
     inputSearch: '',
   }),
   computed: {
-    isListUnselected() {
-      return this.listUnselectedSearch?.length > 0;
+    isListUnmarked() {
+      return this.listUnmarkedSearch?.length > 0;
     },
-    listUnselectedSearch() {
-      if (this.inputSearch.length === 0) return this.listUnselected;
+    listUnmarkedSearch() {
+      if (this.inputSearch.length === 0) return this.listUnmarked;
 
-      return this.listUnselected.filter((item) => {
+      return this.listUnmarked.filter((item) => {
         if (item.name.includes(this.inputSearch)) {
           return item;
         }
@@ -58,14 +58,14 @@ export default {
   },
   methods: {
     addFromListItem() {
-      let arr = this.listUnselected.filter((item) => {
+      this.listUnmarked.filter((item) => {
         if (item?.selected) {
           item.marked = true;
           return item;
         }
       });
 
-      this.$emit('add-tags', arr);
+      this.$emit('add-tags');
     },
   },
 };

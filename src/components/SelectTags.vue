@@ -1,12 +1,14 @@
 <template>
   <div class="container">
-    <ul v-if="isSelectedItems" class="tags">
-      <li v-for="item in selectedItem" :key="item.id" class="tag">
+    <ul v-if="isMarkedItems" class="tags">
+      <li v-for="item in markedItems" :key="item.id" class="tag">
         <span>
           {{ item.name }}
           <i
             class="glyphicon glyphicon-ban-circle"
-            @click="(item.marked = false), (item.selected = false)"
+            @click="
+              (item.selected = false), (item.marked = false), changeMarkedItem()
+            "
           ></i>
         </span>
       </li>
@@ -23,8 +25,8 @@
     <div v-if="isActivePanel" class="row">
       <div class="col-md-5" style="z-index: 1000; position: absolute">
         <SearchPanel
-          :list-unselected="unSelectedItem"
-          add-tags="changeMarkedItem"
+          :list-unmarked="unMarkedItem"
+          @add-tags="changeMarkedItem"
         />
       </div>
     </div>
@@ -49,26 +51,34 @@ export default {
     localList: [],
   }),
   computed: {
-    unSelectedItem() {
+    unMarkedItem() {
       return this.localList.filter((item) => {
         if (!item.marked) return item;
       });
     },
-    selectedItem() {
+    markedItems() {
       return this.localList.filter((item) => {
         if (item.marked) return item;
       });
     },
-    isSelectedItems() {
-      return this.selectedItem.length > 0;
+    isMarkedItems() {
+      return this.markedItems.length > 0;
     },
   },
   methods: {
     setActivePanel() {
       this.isActivePanel = !this.isActivePanel;
     },
-    changeMarkedItem(newArr) {
-      this.localList = [...newArr];
+    changeMarkedItem() {
+      let newArr = [];
+
+      this.markedItems.forEach((item) => {
+        if (item.marked) {
+          newArr.push(item);
+        }
+      });
+
+      this.$emit('update-marked-list', newArr);
     },
   },
   created() {
