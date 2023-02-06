@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-12 p-2 panel">
-    <div class="">
+    <div>
       <input
         type="search"
         class="form-control"
@@ -10,15 +10,17 @@
     </div>
     <div class="mt-4">
       <label><em>Выберите значения для добавления:</em></label>
-      <ul v-if="isListUnselected">
-        <li v-for="item in listUnselectedSearch" :key="item.id">
-          <label>
-            <input type="checkbox" v-model="item.selected" />
-            {{ item.name }}
-          </label>
-        </li>
-      </ul>
-      <div v-else class="text-center text-gray non-selected h-4">
+      <div v-if="isListUnselected" class="h-search-panel">
+        <ul>
+          <li v-for="item in listUnselectedSearch" :key="item.id">
+            <label>
+              <input type="checkbox" v-model="item.selected" />
+              {{ item.name }}
+            </label>
+          </li>
+        </ul>
+      </div>
+      <div v-else class="text-center text-gray none-selected h-search-panel">
         <em>Нет элементов для выбора</em>
       </div>
     </div>
@@ -80,15 +82,7 @@ ul {
   padding: 14px;
 }
 
-.text-gray {
-  color: #ccc;
-}
-
-.non-selected {
-  user-select: none;
-}
-
-.h-4 {
+.h-search-panel {
   min-height: 40px;
   max-height: 120px;
   overflow-y: auto;

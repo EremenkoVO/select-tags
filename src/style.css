@@ -1,0 +1,7 @@
+.text-gray {
+  color: #ccc;
+}
+
+.none-selected {
+  user-select: none;
+}

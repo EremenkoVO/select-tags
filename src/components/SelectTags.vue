@@ -1,17 +1,19 @@
 <template>
   <div class="container">
-    <div class="tags">
-      <span v-for="item in selectedItem" :key="item.id" class="tag">
-        {{ item.name }}
-        <i
-          class="glyphicon glyphicon-ban-circle"
-          @click="(item.marked = false), (item.selected = false)"
-        ></i>
-      </span>
-    </div>
+    <ul v-if="isSelectedItems" class="tags">
+      <li v-for="item in selectedItem" :key="item.id" class="tag">
+        <span>
+          {{ item.name }}
+          <i
+            class="glyphicon glyphicon-ban-circle"
+            @click="(item.marked = false), (item.selected = false)"
+          ></i>
+        </span>
+      </li>
+    </ul>
     <button
       type="button"
-      class="btn btn-default"
+      class="btn btn-default btn-sm"
       title="Добавить поле"
       @click="setActivePanel"
     >
@@ -57,6 +59,9 @@ export default {
         if (item.marked) return item;
       });
     },
+    isSelectedItems() {
+      return this.selectedItem.length > 0;
+    },
   },
   methods: {
     setActivePanel() {
@@ -76,7 +81,10 @@ export default {
 
 <style scoped>
 .tags {
-  margin-bottom: 15px;
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
 }
 
 .tag {
@@ -85,6 +93,11 @@ export default {
   color: #000;
   border-radius: 14px;
   padding: 4px 14px;
+  margin: 4px;
+}
+
+.tags li {
+  float: left;
 }
 
 .tag i {
@@ -92,6 +105,6 @@ export default {
 }
 
 .tag i:hover {
-  color: red;
+  color: crimson;
 }
 </style>
