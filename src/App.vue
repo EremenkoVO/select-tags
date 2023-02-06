@@ -1,28 +1,32 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <SelectedItems :list="list" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    SelectedItems: () => import('./components/SelectTags.vue'),
+  },
+  data: () => ({
+    list: [
+      {
+        id: 1,
+        name: 'Первый элемент',
+      },
+      {
+        id: 2,
+        name: 'Второй элемент',
+      },
+      {
+        id: 3,
+        name: 'Третий элемент',
+      },
+    ],
+  }),
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
